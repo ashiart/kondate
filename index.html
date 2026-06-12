@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>献立メーカー</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>献立メーカー</h1>
+  </header>
+
+  <main>
+    <!-- ===== 提案画面 ===== -->
+    <section id="view-suggest" class="view is-active">
+      <!-- 調理時間フィルタ（今日の気分で選ぶもの。保存はしない） -->
+      <div class="time-filter" id="time-filter">
+        <button class="chip is-active" data-time="" type="button">指定なし</button>
+        <button class="chip" data-time="15分以内" type="button">15分以内</button>
+        <button class="chip" data-time="30分以内" type="button">30分以内</button>
+      </div>
+      <div id="menu-cards">
+        <!-- 主菜・副菜・汁物のカードは app.js が描画します -->
+      </div>
+      <div class="suggest-actions">
+        <button id="btn-suggest" class="btn-primary" type="button">
+          献立を提案する
+        </button>
+        <button id="btn-adopt" class="btn-adopt is-hidden" type="button">
+          この献立にする
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== 料理リスト画面 ===== -->
+    <section id="view-list" class="view">
+      <div class="list-header">
+        <h2 class="section-title">料理リスト</h2>
+        <button id="btn-add-dish" class="btn-add" type="button">
+          ＋ 料理を追加
+        </button>
+      </div>
+      <div class="chip-group" id="list-category-filter"></div>
+      <div id="dish-list"></div>
+    </section>
+
+    <!-- ===== 設定画面 ===== -->
+    <section id="view-settings" class="view">
+      <h2 class="section-title">除外設定</h2>
+      <p class="section-note">タップした項目は提案に出ません。</p>
+
+      <h3 class="group-title">主材料</h3>
+      <div class="chip-group" id="exclude-ingredients"></div>
+
+      <h3 class="group-title">タグ</h3>
+      <div class="chip-group" id="exclude-tags"></div>
+
+      <h2 class="section-title">非表示中の料理</h2>
+      <div id="hidden-list"></div>
+
+      <h2 class="section-title">データについて</h2>
+      <p class="section-note">
+        お気に入りや追加した料理は、この端末のこのブラウザにだけ保存されます。
+      </p>
+    </section>
+  </main>
+
+  <!-- ===== 下部タブバー ===== -->
+  <nav class="tab-bar">
+    <button class="tab is-active" data-view="suggest" type="button">
+      <span class="tab-icon">🍳</span>提案
+    </button>
+    <button class="tab" data-view="list" type="button">
+      <span class="tab-icon">📋</span>料理リスト
+    </button>
+    <button class="tab" data-view="settings" type="button">
+      <span class="tab-icon">⚙️</span>設定
+    </button>
+  </nav>
+
+  <!-- ===== 料理の詳細モーダル ===== -->
+  <div class="modal-overlay" id="modal-dish">
+    <div class="modal-panel" id="modal-dish-body"></div>
+  </div>
+
+  <!-- ===== 料理の追加・編集モーダル ===== -->
+  <div class="modal-overlay" id="modal-form">
+    <div class="modal-panel">
+      <h2 class="section-title" id="form-title">料理を追加</h2>
+
+      <label class="form-label" for="form-name">
+        料理名 <span class="required">必須</span>
+      </label>
+      <input
+        type="text"
+        id="form-name"
+        class="form-input"
+        placeholder="例：肉じゃが"
+      />
+
+      <p class="form-label">カテゴリ <span class="required">必須</span></p>
+      <div class="chip-group" id="form-category"></div>
+
+      <details class="form-details" id="form-details">
+        <summary>詳しく設定（任意）</summary>
+
+        <label class="form-label" for="form-ingredient">主材料</label>
+        <select id="form-ingredient" class="form-select"></select>
+
+        <label class="form-label" for="form-cooktime">調理時間</label>
+        <select id="form-cooktime" class="form-select"></select>
+
+        <label class="form-label" for="form-taste">味付け</label>
+        <select id="form-taste" class="form-select"></select>
+
+        <label class="form-label" for="form-genre">ジャンル</label>
+        <select id="form-genre" class="form-select"></select>
+
+        <p class="form-label">タグ</p>
+        <div class="chip-group" id="form-tags"></div>
+        <input
+          type="text"
+          id="form-newtags"
+          class="form-input"
+          placeholder="新しいタグ（カンマ区切りで複数可）"
+        />
+      </details>
+
+      <div class="form-buttons">
+        <button id="btn-form-cancel" class="btn-secondary" type="button">
+          キャンセル
+        </button>
+        <button id="btn-form-save" class="btn-save" type="button">保存</button>
+      </div>
+      <button id="btn-form-delete" class="btn-danger is-hidden" type="button">
+        この料理を削除
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== 操作した結果を一言知らせる表示 ===== -->
+  <div id="toast" class="toast"></div>
+
+  <script src="js/data.js" defer></script>
+  <script src="js/storage.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>

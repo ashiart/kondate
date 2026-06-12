@@ -1,0 +1,655 @@
+/* =====================================================
+   献立メーカー：スタイル
+   方針：文字大きめ・ボタン大きめ・スマホ片手操作優先
+   ===================================================== */
+
+:root {
+  --color-main: #e8590c;        /* メインカラー（あたたかいオレンジ） */
+  --color-main-dark: #c44a08;
+  --color-bg: #faf6f1;          /* 背景（やわらかい生成り色） */
+  --color-card: #ffffff;
+  --color-text: #333333;
+  --color-text-sub: #777777;
+  --color-border: #e5ddd3;
+  --color-badge-main: #e8590c;  /* 主菜バッジ */
+  --color-badge-side: #2f9e44;  /* 副菜バッジ */
+  --color-badge-soup: #1971c2;  /* 汁物バッジ */
+  --tab-bar-height: 64px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 17px; /* 全体の文字サイズの基準。大きめに設定 */
+}
+
+body {
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo,
+    sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+/* ===== ヘッダー ===== */
+
+.app-header {
+  background: var(--color-main);
+  color: #fff;
+  text-align: center;
+  padding: 10px 12px;
+}
+
+.app-header h1 {
+  font-size: 1.15rem;
+  font-weight: bold;
+}
+
+/* ===== メイン領域 ===== */
+
+main {
+  max-width: 480px; /* PCでもスマホ幅で中央表示 */
+  margin: 0 auto;
+  /* 下部の固定ボタン＋タブバーに隠れないよう余白を取る */
+  padding: 12px 16px calc(var(--tab-bar-height) + 96px);
+}
+
+.view {
+  display: none;
+}
+
+.view.is-active {
+  display: block;
+}
+
+.placeholder {
+  text-align: center;
+  color: var(--color-text-sub);
+  padding: 48px 8px;
+}
+
+/* ===== チップ（調理時間フィルタ・除外設定で共用） ===== */
+
+.chip {
+  min-height: 44px; /* 指で押しやすい高さを確保 */
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  background: #fff;
+  color: var(--color-text);
+  border: 1.5px solid var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+/* 調理時間：選択中 */
+.chip.is-active {
+  background: var(--color-main);
+  color: #fff;
+  border-color: var(--color-main);
+  font-weight: bold;
+}
+
+/* お気に入り絞り込み：オン */
+.chip.chip-fav.is-active {
+  background: #f5a623;
+  border-color: #f5a623;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* 除外設定：除外中 */
+.chip.is-excluded {
+  background: #868e96;
+  color: #fff;
+  border-color: #868e96;
+  text-decoration: line-through;
+  font-weight: bold;
+}
+
+.time-filter {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.time-filter .chip {
+  flex: 1;
+  padding: 8px 4px;
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* ===== 設定画面 ===== */
+
+.section-title {
+  font-size: 1.15rem;
+  margin: 8px 0 4px;
+}
+
+.section-note {
+  font-size: 0.9rem;
+  color: var(--color-text-sub);
+  margin-bottom: 16px;
+}
+
+.group-title {
+  font-size: 1rem;
+  margin: 12px 0 8px;
+}
+
+/* ===== 献立カード ===== */
+
+.menu-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.category-badge {
+  display: inline-block;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: bold;
+  padding: 3px 14px;
+  border-radius: 999px;
+}
+
+.category-badge.main { background: var(--color-badge-main); }
+.category-badge.side { background: var(--color-badge-side); }
+.category-badge.soup { background: var(--color-badge-soup); }
+
+.dish-name {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 2px 0 4px;
+  word-break: break-word;
+}
+
+.dish-name.is-empty {
+  color: var(--color-text-sub);
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.dish-meta {
+  font-size: 0.9rem;
+  color: var(--color-text-sub);
+  margin-bottom: 4px;
+}
+
+.dish-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.tag-chip {
+  font-size: 0.8rem;
+  background: #f1ece4;
+  color: #6b6155;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+/* ===== ボタン ===== */
+
+/* 提案画面の下部ボタン置き場。タブバーの上に固定し、
+   背景を敷いてカードと重なって見えないようにする */
+.suggest-actions {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--tab-bar-height) + env(safe-area-inset-bottom));
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  gap: 10px;
+  padding: 10px 16px;
+  background: var(--color-bg);
+  z-index: 50;
+}
+
+.btn-primary {
+  flex: 1;
+  min-height: 54px;
+  background: var(--color-main);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+}
+
+.btn-primary:active {
+  background: var(--color-main-dark);
+}
+
+.btn-reroll {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  background: #fff;
+  color: var(--color-main);
+  font-size: 0.95rem;
+  font-weight: bold;
+  border: 2px solid var(--color-main);
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-reroll:active {
+  background: #fdf0e7;
+}
+
+/* ===== 下部タブバー ===== */
+
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--tab-bar-height) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: #fff;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 0.8rem;
+  color: var(--color-text-sub);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.tab-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.tab.is-active {
+  color: var(--color-main);
+  font-weight: bold;
+}
+
+/* ===== M3：提案画面の追加分 ===== */
+
+.btn-adopt {
+  flex: 1;
+  min-height: 54px;
+  background: var(--color-badge-side); /* 決定は緑 */
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+}
+
+.btn-adopt:active {
+  background: #258b3a;
+}
+
+.btn-fav {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #c9c2b8; /* お気に入りでないとき：薄いグレー */
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.btn-fav.is-on {
+  color: #f5a623; /* お気に入り：金色 */
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.card-actions .btn-reroll {
+  flex: 1.4;
+  margin-top: 0;
+  min-height: 42px;
+  font-size: 0.85rem;
+}
+
+.btn-hide7 {
+  flex: 1;
+  min-height: 42px;
+  background: #fff;
+  color: var(--color-text-sub);
+  font-size: 0.8rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.btn-hide7:active {
+  background: #f1ece4;
+}
+
+/* ===== M3：料理リスト ===== */
+
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.btn-add {
+  min-height: 46px;
+  padding: 8px 16px;
+  background: var(--color-main);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.dish-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.dish-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.dish-row-name {
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.dish-row-meta {
+  font-size: 0.8rem;
+  color: var(--color-text-sub);
+}
+
+.dish-row-state {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.row-star {
+  color: #f5a623;
+  font-size: 1.2rem;
+}
+
+.state-chip {
+  font-size: 0.75rem;
+  background: #868e96;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.state-chip.custom {
+  background: var(--color-badge-soup);
+}
+
+/* ===== M3：モーダル共通 ===== */
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 100;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal-overlay.is-open {
+  display: flex;
+}
+
+.modal-panel {
+  background: #fff;
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 16px 16px 0 0;
+  padding: 20px 16px calc(24px + env(safe-area-inset-bottom));
+}
+
+.modal-dish-name {
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.modal-action {
+  min-height: 52px;
+  font-size: 1rem;
+  font-weight: bold;
+  background: #fff;
+  color: var(--color-text);
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.modal-action:active {
+  background: #f1ece4;
+}
+
+.modal-action.close {
+  border: none;
+  color: var(--color-text-sub);
+  font-weight: normal;
+}
+
+/* ===== M3：追加・編集フォーム ===== */
+
+.form-label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: bold;
+  margin: 14px 0 6px;
+}
+
+.required {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #fff;
+  background: var(--color-main);
+  padding: 1px 8px;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  min-height: 50px;
+  font-size: 1rem;
+  font-family: inherit;
+  padding: 10px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--color-text);
+}
+
+.form-details {
+  margin-top: 16px;
+}
+
+.form-details summary {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: var(--color-main);
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-secondary {
+  flex: 1;
+  min-height: 52px;
+  font-size: 1rem;
+  background: #fff;
+  color: var(--color-text-sub);
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.btn-save {
+  flex: 1.4;
+  min-height: 52px;
+  font-size: 1rem;
+  font-weight: bold;
+  background: var(--color-main);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.btn-save:active {
+  background: var(--color-main-dark);
+}
+
+.btn-danger {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 14px;
+  font-size: 0.95rem;
+  background: #fff;
+  color: #e03131;
+  border: 1.5px solid #e03131;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+/* ===== M3：設定画面の非表示リスト ===== */
+
+.hidden-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+}
+
+.hidden-row-name {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.btn-unhide {
+  min-height: 44px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  background: #fff;
+  color: var(--color-main);
+  border: 1.5px solid var(--color-main);
+  border-radius: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ===== M3：トースト（一言メッセージ） ===== */
+
+.toast {
+  position: fixed;
+  bottom: calc(var(--tab-bar-height) + 20px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(40, 40, 40, 0.92);
+  color: #fff;
+  font-size: 0.95rem;
+  padding: 12px 22px;
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+  z-index: 200;
+  white-space: nowrap;
+}
+
+.toast.is-show {
+  opacity: 1;
+}
+
+/* ===== 汎用 ===== */
+
+.is-hidden {
+  display: none !important;
+}
