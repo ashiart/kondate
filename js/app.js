@@ -207,7 +207,8 @@ function unhideDish(id) {
 
 /* ---------- 採用履歴 ---------- */
 
-// 「この献立にする」：表示中の献立をスナップショットで記録する。
+// 「この献立にする」：表示中の献立をスナップショットで記録し、
+// 採用した料理を7日間提案から外す（同じ献立ばかり出るのを防ぐ）。
 // 料理があとで編集・削除されても履歴が壊れないように複製して保存する
 function adoptMenu() {
   const dishes = CATEGORIES.map((c) => currentMenu[c])
@@ -220,8 +221,21 @@ function adoptMenu() {
       genre: d.genre || "",
     }));
   if (dishes.length === 0) return;
+
+  // 同じ日に決め直した場合：前回採用した料理の非表示を先に解除する
+  // （解除しないと、やめた献立が7日間消えたままになってしまう）
+  const prevToday = loadHistory().find((h) => h.date === todayStr());
+  if (prevToday) {
+    prevToday.dishes.forEach((d) => unhideDish(d.id));
+  }
+
   addHistoryEntry({ date: todayStr(), dishes: dishes });
-  showToast("今日の献立に決めました！");
+
+  // 採用した料理は7日間提案しない
+  dishes.forEach((d) => hideDish(d.id, 7));
+
+  renderAll();
+  showToast(`決めました！${dishes.length}品は7日間提案されません`);
 }
 
 /* ---------- オリジナル料理の追加・編集・削除 ---------- */

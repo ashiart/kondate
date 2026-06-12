@@ -48,11 +48,18 @@
 - [ ] M4：仕上げ
   - [x] M4-1：UI調整（下部ボタン固定・カードコンパクト化）
   - [x] M4-2：初期データ100件（主菜40・副菜35・汁物25。次に使うIDは d101）
-  - [ ] M4-3：GitHub Pages試験公開
+  - [x] M4-3：GitHub Pages試験公開
   - [ ] M4-4：ブログサーバー本公開＋ブログからリンク
 
-## 公開の流れ（予定）
+## 公開情報
+
+- 試験公開URL：https://ashiart.github.io/kondate/
+- リポジトリ：https://github.com/ashiart/kondate
+- 更新方法：リポジトリの「Add file → Upload files」で変更したファイルを
+  ドラッグ＆ドロップ→Commit changes（数分で公開に反映される）
+
+## 公開の流れ
 
 1. 開発：ローカル（index.htmlを直接開く）
-2. 試験公開：GitHub Pages
+2. 試験公開：GitHub Pages ←いまここ
 3. 本公開：ブログと同じサーバーにフォルダごとアップロード
